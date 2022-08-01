@@ -1,13 +1,11 @@
-import Home from "./Home"
+import Home from "./HomeScreen/Home"
 import Portfolio from "./Portfolio"
-import Reels from "./Reels";
-import Shop from "./Shop";
 import Profile from "./Profile";
+import AddStock from "./AddStock";
 
 export {
     Home,
     Portfolio,
-    Reels,
-    Shop,
-    Profile
+    Profile,
+    AddStock
 };

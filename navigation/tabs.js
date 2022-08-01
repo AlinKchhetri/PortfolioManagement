@@ -6,7 +6,7 @@ import {
     StyleSheet
 } from "react-native";
 import { createBottomTabNavigator} from "@react-navigation/bottom-tabs"
-import { Home, Portfolio, Profile, Reels, Shop} from "../screens"
+import { Home, Portfolio, Profile, AddStock } from "../screens"
 import { COLORS, icons, SIZES } from "../constants"
 
 const Tab = createBottomTabNavigator()
@@ -21,73 +21,66 @@ const Tabs = () => {
                 style: {
                     position: 'absolute',
                     width: SIZES.width,
-                    height: (SIZES.height*84)/SIZES.height,
+                    height: (SIZES.height*88)/SIZES.height,
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    backgroundColor: '#000',
-                    elevation: 0
+                    backgroundColor: COLORS.white,
+                    elevation: 0,
+                    borderRadius: SIZES.padding*2,
+                    opacity: 0.98,
+                    shadowColor: COLORS.black,
+                    shadowOpacity: 0.25,
+                    shadowOffset:{width:0, height:1},
+                    shadowRadius: 4
                 }
             }}>
             <Tab.Screen
                 name="Home"
                 component={Home}
                 options={{
-                    tabBarIcon: () => (
+                    tabBarIcon: ({focused}) => (
                         <Image
                             source={icons.home}
                             resizeMode="contain"
                             style={{
                                 width: 25,
                                 height: 25,
+                                tintColor: focused? COLORS.blue: null,
                             }}
                         />
                     )
                 }}
             />
             <Tab.Screen
-                name="Search"
+                name="Portfolio"
                 component={Portfolio}
                 options={{
-                    tabBarIcon: () => (
+                    tabBarIcon: ({focused}) => (
                         <Image
-                            source={icons.search}
+                            source={icons.portfolio}
                             resizeMode="contain"
                             style={{
                                 width: 25,
                                 height: 25,
+                                tintColor: focused? COLORS.blue: null,
                             }}
                         />
                     ),
                 }}
             />
             <Tab.Screen
-                name="Reels"
-                component={Reels}
+                name="AddStock"
+                component={AddStock}
                 options={{
-                    tabBarIcon: () => (
+                    tabBarIcon: ({focused}) => (
                         <Image
-                            source={icons.reels}
+                            source={icons.addStock}
                             resizeMode="contain"
                             style={{
                                 width: 25,
                                 height: 25,
-                            }}
-                        />
-                    ),
-                }}
-            />
-            <Tab.Screen
-                name="Shop"
-                component={Shop}
-                options={{
-                    tabBarIcon: () => (
-                        <Image
-                            source={icons.shop}
-                            resizeMode="contain"
-                            style={{
-                                width: 25,
-                                height: 25,
+                                tintColor: focused? COLORS.blue: null,
                             }}
                         />
                     ),
@@ -97,13 +90,14 @@ const Tabs = () => {
                 name="Profile"
                 component={Profile}
                 options={{
-                    tabBarIcon: () => (
+                    tabBarIcon: ({focused}) => (
                         <Image
                             source={icons.profile}
                             resizeMode="contain"
                             style={{
                                 width: 25,
-                                height: 25
+                                height: 25,
+                                tintColor: focused? COLORS.blue: null,
                             }}
                         />
                     ),

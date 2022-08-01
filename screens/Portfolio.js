@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react';
-import {db} from '../components/configexpo';
+import {db} from '../components/Firebase/configexpo';
 import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
 
 import { COLORS, lightFONTS, darkFONTS } from '../constants'
@@ -25,6 +25,8 @@ const Portfolio = () => {
     if(username && email != "") {
       setDoc(myDoc, docData)
       .then (() => {
+        setUsername('');
+        setEmail('');
         alert("Document Created")  
     })
     .catch ((error) => {
@@ -57,8 +59,8 @@ const Portfolio = () => {
 
     setDoc(myDoc,value,{merge: merge})
     .then (() => {
-        alert("Update Succesful")
-        setUpdateItem('')
+        setUpdateItem('');
+        alert("Update Succesful")   
     })
     .catch ((error) => {
         alert(error.message)
@@ -106,8 +108,8 @@ const Portfolio = () => {
     {
       dataItem !=null &&
       <>
-      <Text style={{...lightFONTS.body3}}>username: {dataItem.username}</Text>
-      <Text style={{...lightFONTS.body3}}>email: {dataItem.email}</Text>
+      <Text style={{...darkFONTS.body3}}>username: {dataItem.username}</Text>
+      <Text style={{...darkFONTS.body3}}>email: {dataItem.email}</Text>
       </>
     }
 

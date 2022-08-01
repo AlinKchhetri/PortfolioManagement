@@ -28,6 +28,10 @@ const App = () => {
         "Roboto-Black" : require('./assets/fonts/Roboto-Black.ttf'),
         "Roboto-Bold" : require('./assets/fonts/Roboto-Bold.ttf'),
         "Roboto-Regular" : require('./assets/fonts/Roboto-Regular.ttf'),
+        "SF-Pro-Regular": require('./assets/fonts/FontsFree-Net-SFProText-Regular-1.ttf'),
+        "SF-Pro-Medium": require('./assets/fonts/FontsFree-Net-SFProDisplay-Medium-1.ttf'),
+        "SF-Pro-Bold": require('./assets/fonts/FontsFree-Net-SFProText-Bold-1.ttf'),
+        "Medium": require('./assets/fonts/FontsFree-Net-SFProText-Medium-1.ttf')
     })
     
     if(!loaded){

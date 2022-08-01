@@ -1,13 +1,19 @@
-const home = require("../assets/icons/instagram/home.png");
-const search = require("../assets/icons/instagram/search.png");
-const reels = require("../assets/icons/instagram/reel.png");
-const shop = require("../assets/icons/instagram/shop.png");
-const profile = require("../assets/icons/instagram/user.png")
+const home = require("../assets/icons/icon/home.png");
+const addStock = require("../assets/icons/icon/add.png");
+const portfolio = require("../assets/icons/icon/portfolio.png");
+const profile = require("../assets/icons/icon/user.png");
+const notification = require('../assets/icons/icon/notification.png');
+const up =  require('../assets/icons/icon/up.png');
+const down =  require('../assets/icons/icon/down.png');
+const stock = require('../assets/icons/icon/stock2.png');
 
 export default {
     home,
-    search,
-    reels,
-    shop,
-    profile
+    addStock,
+    portfolio,
+    profile,
+    notification,
+    up,
+    down,
+    stock
 }
