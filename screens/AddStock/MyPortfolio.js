@@ -41,6 +41,7 @@ const MyPortfolio = () => {
             </View>
             <View style={{flex: 0.9, justifyContent: 'center', padding: SIZES.base }}>
                 <Text style={{...darkFONTS.h5}}>{doc.username}</Text>
+                <Text style={{...darkFONTS.h5}}>{doc.symbol}</Text>
             </View>
             <View style={styles.priceDiff}>
                 <Text style={{...darkFONTS.h6}}>{doc.username}</Text>

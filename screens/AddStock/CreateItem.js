@@ -5,6 +5,7 @@ import GestureRecognizer from 'react-native-swipe-gestures';
 import {db} from '../../components/Firebase/configexpo';
 import { collection, deleteDoc, doc, getDoc, setDoc, addDoc, getDocs } from 'firebase/firestore';
 import SelectList from 'react-native-dropdown-select-list';
+import SelectDropdown from 'react-native-select-dropdown';
 import {Picker} from '@react-native-picker/picker';
 import axios from 'axios'
 
@@ -22,22 +23,31 @@ const CreateItem = () => {
   const [masterDataSource, setMasterDataSource] = useState([]);
   const [selected, setSelected] = useState("");
   const [data,setData] = useState([]);
+  const [selectedSymbol, SetSelectedSymbol] = useState('');
+  const [email, setEmail] = useState('');
 
 
 const showSymbol = () => {
+    // axios.get("http://nepstockapi.herokuapp.com/")
+    //         .then((response) => {
+    //           setFilteredDataSource(response.data);
+    //           setMasterDataSource(response.data);
+    //           setLoaded(false)
+    //           let newArray = response.data.map((item) => {
+    //             return {key: item.Symbol, value: item.Symbol}
+    //           }); 
+    //           setData(newArray);
+    //         })
+    //         .catch((error) => {
+    //             console.log(error)
+    //         });
     axios.get("http://nepstockapi.herokuapp.com/")
             .then((response) => {
-              setFilteredDataSource(response.data);
-              setMasterDataSource(response.data);
-              setLoaded(false)
-              let newArray = response.data.map((item) => {
-                return {key: item.Symbol, value: item.Symbol}
-              }); 
-              setData(newArray);
-            })
-            .catch((error) => {
+                setData(response.data);
+                setLoaded(false)
+            }).catch((error) => {
                 console.log(error)
-            });
+            })
 }
  
 
@@ -54,15 +64,17 @@ const showSymbol = () => {
 
     useEffect(() => {
         Create();
+        
       
       }, [])
+
+      console.log(selectedSymbol);
     
       const Add = () => {
         const addStock = collection(db, "Portfolio")
     
         const docData = {
-            "username": "yes",
-            "email": "yes@",
+            "symbol": email
         }
     
           addDoc(addStock, docData)
@@ -109,7 +121,7 @@ const showSymbol = () => {
         <View style={styles.modalStyle}>
           <View style={styles.modalHeader}>
             <Text style={{...lightFONTS.h5, padding: SIZES.padding}}>Add New Stock</Text>
-            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+            <TouchableOpacity onPress={() => {setModalVisible(!modalVisible); showSymbol()}}>
                 <Image source={icons.add}
                 style={{
                     width: 30,
@@ -120,10 +132,48 @@ const showSymbol = () => {
           </View>
           <View>
           { loaded? (<View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}><ActivityIndicator size={40} color= '#000000' /></View>)
-        : (<View>
-            <SelectList setSelected={setSelected} data={data}/>
+        : (<View style={styles.dropDown}>
+            {/* <SelectList setSelected={setSelected} data={data}/> */}
+            <SelectDropdown
+            data={data}
+            onSelect={(selectedItem, index) => {
+              {SetSelectedSymbol(selectedItem.Symbol); Add()};
+            }}
+            buttonStyle={styles.dropdown3BtnStyle}
+            renderCustomizedButtonChild={(selectedItem, index) => {
+              return (
+                <View style={styles.dropdown3BtnChildStyle}>
+                    <Text style={styles.dropdown3BtnTxt}>{selectedItem ? selectedItem.Symbol : 'Select Symbol'}</Text>
+                    <Image source={icons.dropdown} style ={{height: 15, width: 15}}/>
+                </View>
+              );
+            }}
+            dropdownStyle={styles.dropdown3DropdownStyle}
+            rowStyle={styles.dropdown3RowStyle}
+            renderCustomizedRowChild={(item) => {
+              return (
+                <View style={styles.dropdown3RowChildStyle}>
+                  <Text style={styles.dropdown3RowTxt}>{item.Symbol}</Text>
+                </View>
+              );
+            }}
+            search
+            searchInputStyle={styles.dropdown3searchInputStyleStyle}
+            searchPlaceHolder={'Search here'}
+            searchPlaceHolderColor={COLORS.black}
+            // renderSearchInputLeftIcon={() => {
+            //   return <FontAwesome name={'search'} color={'#FFF'} size={18} />;
+            // }}
+          />
         </View>)}
-        <Text style={{...lightFONTS.h3}}>{selected}</Text>
+        <TextInput 
+        value={email}
+        onChangeText={(email) => setEmail(email)} 
+        placeholder='symbol' 
+        style={styles.inputField}/>
+        <TouchableOpacity 
+        onPress={Add}
+        style={{width: 60, height: 40, backgroundColor: 'blue', alignSelf: 'center', margin: 20}}><Text>Add</Text></TouchableOpacity>
           </View>
 
         </View>
@@ -154,7 +204,7 @@ const styles = StyleSheet.create({
     },
 
     modalStyle:{
-        height: '70%',
+        height: SIZES.height*0.7,
         marginTop: 'auto',
         backgroundColor: '#1f1f1f',
         opacity: 0.98,
@@ -166,5 +216,60 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         margin: 20,
-    }
+    },
+    inputField: {
+        width: 200,
+        height: 50,
+        backgroundColor: 'grey',
+        margin: 10,
+        padding: 10,
+        color: 'black',
+      },
+
+    dropDown:{
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    dropdown3BtnStyle: {
+        width: SIZES.width-60,
+        height: 40,
+        backgroundColor: COLORS.darkgray,
+        borderRadius: SIZES.padding
+      },
+      dropdown3BtnChildStyle: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: SIZES.padding,
+      },
+      dropdown3BtnTxt: {
+        ...darkFONTS.body3,
+        marginHorizontal: SIZES.padding
+      },
+      dropdown3RowStyle: {
+        backgroundColor: COLORS.darkgray,
+        borderBottomColor: COLORS.darkgray,
+        height: 40,
+      },
+      dropdown3DropdownStyle: {
+        backgroundColor: COLORS.darkgray,
+        borderRadius: SIZES.padding
+      },
+      dropdown3RowChildStyle: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        paddingHorizontal: SIZES.h5
+      },
+      dropdown3RowTxt: {
+        ...darkFONTS.body4,
+        marginHorizontal:SIZES.padding2
+      },
+      dropdown3searchInputStyleStyle: {
+        ...darkFONTS.body3,
+        backgroundColor: COLORS.darkgray,
+        borderBottomWidth: 1,
+      },
 })
