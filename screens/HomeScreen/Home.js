@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native-virtualized-view';
 import Dashboard from './Dashboard';
 import HomeHeader from './HomeHeader';
 import NepseApi from './NepseApi';
-import { COLORS, lightFONTS, darkFONTS } from '../../constants'
+import { COLORS, lightFONTS, darkFONTS, SIZES } from '../../constants'
 
 
 const Home = () => {
@@ -15,7 +15,10 @@ const Home = () => {
         <View>
           <HomeHeader />
           <Dashboard />
-          <NepseApi />
+          <View style={styles.todayMarket}>
+            <Text style={{...darkFONTS.h4, padding: SIZES.padding}}>Today's Market</Text>
+            <NepseApi />
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

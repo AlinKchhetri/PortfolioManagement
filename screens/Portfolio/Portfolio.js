@@ -1,8 +1,8 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import { COLORS, lightFONTS, darkFONTS } from '../constants'
+import { COLORS, lightFONTS, darkFONTS } from '../../constants'
 
-const AddStock = () => {
+const Portfolio = () => {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor:COLORS.black,}}>
       <Text style={{ ...darkFONTS.h1}}>Shop</Text>
@@ -10,4 +10,4 @@ const AddStock = () => {
   )
 }
 
-export default AddStock
+export default Portfolio

@@ -6,7 +6,7 @@ import {
     StyleSheet
 } from "react-native";
 import { createBottomTabNavigator} from "@react-navigation/bottom-tabs"
-import { Home, Portfolio, Profile, AddStock } from "../screens"
+import { Home, Portfolio, Profile, AddStock, Market } from "../screens"
 import { COLORS, icons, SIZES } from "../constants"
 
 const Tab = createBottomTabNavigator()
@@ -76,6 +76,23 @@ const Tabs = () => {
                     tabBarIcon: ({focused}) => (
                         <Image
                             source={icons.addStock}
+                            resizeMode="contain"
+                            style={{
+                                width: 25,
+                                height: 25,
+                                tintColor: focused? COLORS.blue: null,
+                            }}
+                        />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Market"
+                component={Market}
+                options={{
+                    tabBarIcon: ({focused}) => (
+                        <Image
+                            source={icons.market}
                             resizeMode="contain"
                             style={{
                                 width: 25,

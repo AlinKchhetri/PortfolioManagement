@@ -29,6 +29,8 @@ const HomeHeader = ({navigation}) => {
           style={{
             width: 25,
             height: 25,
+            tintColor: COLORS.black,
+            opacity: 0.5
           }}/>
         </TouchableOpacity>
         </View>
@@ -40,7 +42,7 @@ export default HomeHeader
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        // flex: 1,
         justifyContent: 'flex-start',
         padding: SIZES.padding
     },

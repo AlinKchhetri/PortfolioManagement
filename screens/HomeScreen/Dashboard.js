@@ -6,7 +6,7 @@ const Dashboard = () => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-        <Text style={{...darkFONTS.h3, padding: SIZES.padding}}>Dashboard</Text>
+      <Text style={{...darkFONTS.h3, padding: SIZES.padding}}>Dashboard</Text>
         <View style={styles.dashboard}>
             <View style={styles.balanceSection}>
                     <Text style={{...lightFONTS.h4}}>Current Balance</Text>

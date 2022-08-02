@@ -1,21 +1,24 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react';
-import {db} from '../components/Firebase/configexpo';
-import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList } from 'react-native'
+import React, { useState, useEffect } from 'react';
+import MyPortfolio from './MyPortfolio';
+import CreateItem from './CreateItem';
+import {db} from '../../components/Firebase/configexpo';
+import { collection, deleteDoc, doc, getDoc, setDoc, addDoc, getDocs } from 'firebase/firestore';
 
-import { COLORS, lightFONTS, darkFONTS } from '../constants'
+import { COLORS, lightFONTS, darkFONTS } from '../../constants'
+import { async } from '@firebase/util';
 
 
-const Portfolio = () => {
+const AddStock = () => {
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [dataItem, setDataItem] = useState('');
+  const [dataItem, setDataItem] = useState([]);
   const [updateItem, setUpdateItem] = useState('');
 
 
   const Create = () => {
-    const myDoc = doc(db, "MyCollection", "newDocument")
+    const myDoc = doc(db, "PortfolioManagement", "newDocument")
 
     const docData = {
         "username": username,
@@ -37,13 +40,35 @@ const Portfolio = () => {
     }  
   }
 
-  const Read = () => {
-    const myDoc = doc(db, "MyCollection", "newDocument")
+  const Add = () => {
+    const addStock = collection(db, "userPortfolio")
 
-    getDoc(myDoc)
-    
+    const docData = {
+        "username": username,
+        "email": email,
+    }
+
+    if(username && email != "") {
+      addDoc(addStock, docData)
+      .then (() => {
+        setUsername('');
+        setEmail('');
+        alert("Document Created")  
+    })
+    .catch ((error) => {
+      alert(error.message)
+    })
+    } else {
+      alert("Document Empty")  
+    }  
+  }
+
+  const Read =  () => {
+    const myDoc = collection(db, "userPortfolio", 'sq2fToHEA5l9Nu6yi8eM')
+
+    getDocs(myDoc)
     .then ((snapshot) => {
-      if(snapshot.exists) {
+      if(snapshot.exists()) {
         setDataItem(snapshot.data())
       } else {
         alert("No Document Found")
@@ -53,6 +78,24 @@ const Portfolio = () => {
         alert(error.message)
     })
   }
+
+  const ReadAll = () => {
+    getDocs(collection(db, "userPortfolio"))
+    .then(docSnap => {
+      let userPortfolio = [];
+      docSnap.forEach((doc) => {
+        userPortfolio.push({...doc.data(), id:doc.id})
+      });
+      setDataItem(userPortfolio);
+      
+    })
+  }
+
+  
+  
+
+  
+
 
   const Update = (value,merge) => {
     const myDoc = doc(db, "MyCollection", "newDocument")
@@ -85,7 +128,8 @@ const Portfolio = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={{...lightFONTS.body3}}>CRUD Operation Test</Text>
+      <CreateItem />
+      {/* <Text style={{...lightFONTS.body3}}>CRUD Operation Test</Text>
 
       <TextInput 
         value={username}
@@ -99,12 +143,23 @@ const Portfolio = () => {
         style={styles.inputField}/>
 
       <TouchableOpacity 
-        onPress={Create}
+        onPress={Add}
         style={styles.button}><Text style={{...darkFONTS.body3}}>Submit</Text></TouchableOpacity>
       <TouchableOpacity 
-      onPress={Read}
+      onPress={ReadAll}
       style={styles.button}><Text style={{...darkFONTS.body3}}>View</Text></TouchableOpacity>
 
+      <View>
+
+      {
+        dataItem.map((doc) => {
+          return (
+            <Text key={doc.id}>{doc.email}</Text>
+          )
+        })
+      }
+
+      </View>
     {
       dataItem !=null &&
       <>
@@ -132,17 +187,20 @@ const Portfolio = () => {
     <TouchableOpacity 
       onPress={Delete}
       style={styles.button}><Text style={{...darkFONTS.body3}}>Delete</Text></TouchableOpacity>
+     */}
+    <MyPortfolio />
+
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, 
-    justifyContent: 'flex-start', 
-    alignItems: 'center', 
-    backgroundColor: 'white',
     paddingTop: 50,
+    paddingHorizontal: 16,
+    paddingBottom: 34,
+    flex: 1, 
+    backgroundColor: COLORS.lightGray,
   },
 
   inputField: {
@@ -168,4 +226,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default Portfolio
+export default AddStock
