@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     margin: SIZES.padding,
+    marginTop:SIZES.base,
     paddingHorizontal: SIZES.padding,
     borderRadius: SIZES.padding,
     shadowColor: "#000",

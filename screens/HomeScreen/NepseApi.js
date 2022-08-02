@@ -22,6 +22,7 @@ const NepseApi = () => {
             })
   }, []);
 
+
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = masterDataSource.filter(function (item) {
