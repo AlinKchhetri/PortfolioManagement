@@ -8,7 +8,8 @@ const up =  require('../assets/icons/icon/up.png');
 const down =  require('../assets/icons/icon/down.png');
 const stock = require('../assets/icons/icon/stock3.png');
 const market = require('../assets/icons/icon/market.png');
-const dropdown = require('../assets/icons/icon/dropdown.png')
+const dropdown = require('../assets/icons/icon/dropdown.png');
+const refresh = require('../assets/icons/icon/refresh.png');
 
 export default {
     home,
@@ -21,5 +22,6 @@ export default {
     down,
     stock,
     market,
-    dropdown
+    dropdown,
+    refresh
 }

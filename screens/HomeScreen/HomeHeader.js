@@ -7,6 +7,7 @@ const HomeHeader = ({navigation}) => {
     <View style={styles.container}>
       <View style={styles.WelcomeSection}>
         <TouchableOpacity 
+        style={{flex: 0.7}}
         onPress={() => {
           navigation.navigate('Profile')
         }}>
@@ -20,19 +21,23 @@ const HomeHeader = ({navigation}) => {
           <Text style={{...darkFONTS.h3}}>Welcome!</Text>
           <Text style={{...darkFONTS.body3}}>Alin Khatri</Text>
         </View>
+        <View style={styles.notificationButton}>
         <TouchableOpacity 
-        style={styles.notificationButton}
+        style={styles.button}
         onPress={() => {
           navigation.navigate('Profile')
         }}>
           <Image source={icons.notification} 
           style={{
-            width: 25,
-            height: 25,
+            width: 30,
+            height: 30,
             tintColor: COLORS.black,
-            opacity: 0.5
+            opacity: 0.5,
+            backgroundColor: COLORS.darkgray,
+            borderRadius: 25,
           }}/>
         </TouchableOpacity>
+        </View>
         </View>
     </View>
   )
@@ -54,18 +59,17 @@ const styles = StyleSheet.create({
     },
 
     WelcomeText: {
+        flex: 1,
         flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        alignSelf: 'flex-start'
+        justifyContent: 'center',
+        alignItems: 'flex-start'
     },
 
     notificationButton: {
-        backgroundColor: COLORS.darkgray,
-        width: 50,
-        height:50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 25,
-    }
+      flex: 1.8,
+      justifyContent: 'flex-end',
+      alignItems: 'flex-end',
+      
+        
+    },
 })

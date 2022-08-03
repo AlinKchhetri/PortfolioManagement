@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet,RefreshControl, Text, View, TouchableOpacity, Image } from 'react-native'
 import React, { useState, useEffect } from 'react';
+import { ScrollView } from 'react-native-virtualized-view';
 import {db} from '../../components/Firebase/configexpo';
 import { collection, doc, getDocs } from 'firebase/firestore';
 
@@ -8,6 +9,7 @@ import { COLORS, lightFONTS, darkFONTS, images, icons, SIZES } from '../../const
 const MyPortfolio = () => {
 
     const [dataItem, setDataItem] = useState([]);
+    const [refreshing, setRefreshing]= useState(false);
 
     const ReadAll = () => {
         getDocs(collection(db, "Portfolio"))
@@ -26,8 +28,44 @@ const MyPortfolio = () => {
       
       }, [])
 
+      // const render = () => {
+      //   return (
+          
+      //   )
+      // }
+
+      // useEffect(() => {
+      //   render();
+      // }, [])
+
   return (
-    <View>
+    <View
+      refreshControl = {
+        <RefreshControl 
+          // refreshing ={refreshing}
+          onRefresh ={ReadAll}
+          colors={['blue']}
+
+        />
+      }>
+        <ScrollView
+      showsVerticalScrollIndicator ={false}>
+        <View style={styles.header}>
+              <Text style={{ ...darkFONTS.h4, padding: SIZES.padding }}>My Portfolio</Text>
+
+              <TouchableOpacity
+                onPress={ReadAll}
+                  style={styles.addButton}
+                  >
+                  <Image source={icons.refresh}
+                      style={{
+                          width: 25,
+                          height: 25,
+                          tintColor: COLORS.black,
+                          opacity: 0.5
+                      }} />
+              </TouchableOpacity>
+          </View>
 
       {
         dataItem.map((doc) => {
@@ -51,12 +89,13 @@ const MyPortfolio = () => {
                   <Image source={icons.down} style={{width: 15, height: 15}}/>
                 </View>
             </View>
+            
         </TouchableOpacity>
             </View>
           )
         })
       }
-
+      </ScrollView>
       </View>
   )
 }
@@ -85,6 +124,21 @@ const styles = StyleSheet.create({
 
     elevation: 5,
     },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginHorizontal: SIZES.padding,
+      alignItems: 'center'
+
+  },
+  addButton: {
+      backgroundColor: COLORS.darkgray,
+      width: 50,
+      height:50,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 25,
+  },
 
     searchBar:{
       ...darkFONTS.h6,

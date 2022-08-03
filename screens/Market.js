@@ -1,13 +1,17 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { ScrollView } from 'react-native-virtualized-view';
 import { COLORS, lightFONTS, darkFONTS, SIZES } from '../constants'
 import NepseApi from './HomeScreen/NepseApi'
 
 const Market = () => {
   return (
     <View style={styles.marketContainer}>
+      <ScrollView
+      showsVerticalScrollIndicator ={false}>
     <Text style={{...darkFONTS.h3, padding: SIZES.padding, alignSelf: 'flex-start'}}>Today's Market</Text>
       <NepseApi />
+      </ScrollView>
     </View>
   )
 }
@@ -21,7 +25,6 @@ const styles = StyleSheet.create({
         paddingBottom: 34,
         flex: 1,
         backgroundColor: COLORS.lightGray,
-        justifyContent: 'center',
         alignItems: 'center', 
     }
 })

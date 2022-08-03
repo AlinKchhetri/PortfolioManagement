@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList } from 'react-native'
 import React, { useState, useEffect } from 'react';
-import MyPortfolio from './MyPortfolio';
+import { ScrollView } from 'react-native-virtualized-view';
 import CreateItem from './CreateItem';
 import {db} from '../../components/Firebase/configexpo';
 import { collection, deleteDoc, doc, getDoc, setDoc, addDoc, getDocs } from 'firebase/firestore';
@@ -128,6 +128,8 @@ const AddStock = () => {
 
   return (
     <View style={styles.container}>
+      <ScrollView
+      showsVerticalScrollIndicator ={false}>
       <CreateItem />
       {/* <Text style={{...lightFONTS.body3}}>CRUD Operation Test</Text>
 
@@ -188,7 +190,7 @@ const AddStock = () => {
       onPress={Delete}
       style={styles.button}><Text style={{...darkFONTS.body3}}>Delete</Text></TouchableOpacity>
      */}
-    <MyPortfolio />
+    </ScrollView>
 
     </View>
   )

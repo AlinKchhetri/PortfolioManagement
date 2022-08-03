@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Image , TouchableOpacity, FlatList, ActivityIndicator, TextInput} from 'react-native'
+import { ScrollView } from 'react-native-virtualized-view';
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 
@@ -41,6 +42,8 @@ const NepseApi = () => {
   };
 
   return (
+    <ScrollView
+      showsVerticalScrollIndicator ={false}>
     <View>
   { loaded? (<View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}><ActivityIndicator size={40} color= '#000000' /></View>)
   : (<View>
@@ -89,6 +92,7 @@ const NepseApi = () => {
     </View>) 
   }
   </View>
+  </ScrollView>
   )
 }
 
