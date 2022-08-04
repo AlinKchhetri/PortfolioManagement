@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image, Modal, ActivityIndicator, Pressable, TextInput } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, Image, Modal, ActivityIndicator, KeyboardAvoidingView, Pressable, TextInput } from 'react-native'
 import React, { useState, useEffect, RNDateTimePicker } from 'react';
 import { ScrollView } from 'react-native-virtualized-view';
 import GestureRecognizer from 'react-native-swipe-gestures';
@@ -93,17 +93,23 @@ const dateT = () =>{
 
   setInvestment(Math.floor(unit*amount));
   setCurrentValue(Math.floor(unit*amountNow));
-  setProfitLoss((Math.floor(currentValue)-Math.floor(investment)));
+  // setProfitLoss((Math.floor(currentValue)-Math.floor(investment)));
+ 
+
 }
 
+const profitLossShow = () => {
+  setProfitLoss(currentValue-investment);
+}
 
 
 useEffect(() => {
   showSymbol();
   dateT();
+  profitLossShow();
 
 
-}, [])
+}, [dateT])
 
  
 
@@ -140,7 +146,7 @@ useEffect(() => {
     
           addDoc(addStock, docData)
           .then (() => {
-            alert("Document Created") 
+            alert("Document Created")
         })
         .catch ((error) => {
           alert(error.message)
@@ -179,7 +185,7 @@ useEffect(() => {
       
         <View style={styles.modalStyle}>
           <View style={styles.modalHeader}>
-            <Text style={{...darkFONTS.h4, padding: SIZES.padding}}>Add New Stock</Text>
+            <Text style={{...darkFONTS.h5}}>Add New Stock</Text>
             <TouchableOpacity onPress={() => {setModalVisible(!modalVisible); showSymbol()}}>
                 <Image source={icons.add}
                 style={{
@@ -274,7 +280,7 @@ useEffect(() => {
           <View>
           <TextInput
               value={amountNow}
-              onChangeText={(amountNow) => setAmountNow(amountNow)}
+              onChangeText={(amountNow) => {setAmountNow(amountNow)}}
               placeholder= 'Current Price'
               placeholderTextColor= '#696969'
               keyboardType='number-pad'
@@ -287,6 +293,7 @@ useEffect(() => {
               placeholder= 'YYYY'
               placeholderTextColor= '#696969'
               keyboardType='number-pad'
+              maxLength={4}
               style={styles.inputDateField} />
             
             <TextInput
@@ -295,6 +302,7 @@ useEffect(() => {
               placeholder= 'MM'
               placeholderTextColor= '#696969'
               keyboardType='number-pad'
+              maxLength={2}
               style={styles.inputDateField} />
             
             <TextInput
@@ -303,6 +311,7 @@ useEffect(() => {
               placeholder= 'DD'
               placeholderTextColor= '#696969'
               keyboardType='number-pad'
+              maxLength={2}
               style={styles.inputDateField} />
         </View>
 
@@ -310,9 +319,9 @@ useEffect(() => {
           
         </View>
         <Pressable 
-        onPressIn={() => dateT()}
-        onPressOut = {() => Add()}
-        onPress={()=>ReadAll()}
+        onPressIn={() => {dateT();profitLossShow()}}
+        onPressOut = {() =>{ReadAll(); dateT()} }
+        onPress={()=>{Add();ReadAll()}}
         style={{width: 60, height: 40, backgroundColor: 'blue', alignSelf: 'center', margin: 20}}><Text>Add</Text></Pressable>
           </View>
           </View>
@@ -397,7 +406,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        margin: 20,
+        margin: SIZES.base
     },
     inputField: {
       ...darkFONTS.body4,

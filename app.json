@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "App Template",
-    "slug": "AppTemplate",
+    "name": "Portfolio Management",
+    "slug": "PortfolioManagement",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

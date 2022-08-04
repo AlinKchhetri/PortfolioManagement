@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image , TouchableOpacity, FlatList, ActivityIndicator, TextInput} from 'react-native'
+import { StyleSheet, Text, View, Image , TouchableOpacity, FlatList, ActivityIndicator, KeyboardAvoidingView, TextInput} from 'react-native'
 import { ScrollView } from 'react-native-virtualized-view';
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
@@ -55,7 +55,9 @@ const NepseApi = () => {
       value={search}
       placeholder="Search Symbol"
       placeholderTextColor= 'grey'
+      onChange={(search) => setSearch(search)}
       onChangeText={(text) => searchFilterFunction(text)}
+
       style={styles.searchBar} 
     />
     </View>
