@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native'
 import React from 'react'
 import { ScrollView } from 'react-native-virtualized-view';
 import MyPortfolio from './MyPortfolio'
@@ -11,8 +11,8 @@ const Portfolio = () => {
     <View style={styles.container}>
       <ScrollView
       showsVerticalScrollIndicator ={false}>
-        <Text>New</Text>
-      <Dashboard />
+        {/* <Text>New</Text>
+      <Dashboard /> */}
       <MyPortfolio />
       </ScrollView>
     </View>

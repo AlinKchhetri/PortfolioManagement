@@ -1,21 +1,24 @@
 import { StyleSheet, Text, TouchableOpacity, View, Image, Modal, ActivityIndicator, KeyboardAvoidingView, Pressable, TextInput } from 'react-native'
-import React, { useState, useEffect, RNDateTimePicker } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ScrollView } from 'react-native-virtualized-view';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import {db} from '../../components/Firebase/configexpo';
 import { collection, deleteDoc, doc, getDoc, setDoc, addDoc, getDocs } from 'firebase/firestore';
-import SelectList from 'react-native-dropdown-select-list';
 import SelectDropdown from 'react-native-select-dropdown';
-import {Picker} from '@react-native-picker/picker';
-import DatePicker from 'react-native-date-picker'
-import CheckBox from '@react-native-community/checkbox';
-// import DateTimePicker from '@react-native-community/datetimepicker';
-import DateTimePicker from "react-native-modal-datetime-picker";
 import axios from 'axios'
-import MyPortfolio from '../Portfolio/MyPortfolio';
+import {Transition, transition, Transitioning} from 'react-native-reanimated'
 
 
 import { COLORS, lightFONTS, darkFONTS, images, icons, SIZES } from '../../constants'
+import { set } from 'react-native-reanimated';
+
+const transitionMe = (
+  <Transition.Together>
+    <Transition.In type='sequence' durationMs={200} />
+    <Transition.Change />
+    <Transition.Out type='fade' durationMs={200} />
+  </Transition.Together>
+)
 
 
 const CreateItem = () => {
@@ -34,14 +37,17 @@ const CreateItem = () => {
   const [investment, setInvestment] = useState('');
   const [currentValue, setCurrentValue] = useState('');
   const [profitLoss, setProfitLoss] = useState('');
+  const [profitLossPercentage, setProfitLossPercentage] = useState('');
   const [date, setDate] = useState('');
   const [open, setOpen] = useState(false);
   const [dateVisible, setDateVisible] = useState(true);
   const [year, setYear] = useState('');
   const [month, setMonth] = useState('');
   const [day, setDay] = useState('');
+  const [showAddStock, setShowAddStock] =  useState(false)
 
   const [dataItem, setDataItem] = useState([]);
+  const ref = useRef();
 
     const ReadAll = () => {
         getDocs(collection(db, "Portfolio"))
@@ -100,7 +106,10 @@ const dateT = () =>{
 
 const profitLossShow = () => {
   setProfitLoss(currentValue-investment);
+  setProfitLossPercentage(Math.floor((profitLoss/investment)*100)+'%')
+
 }
+
 
 
 useEffect(() => {
@@ -109,7 +118,7 @@ useEffect(() => {
   profitLossShow();
 
 
-}, [dateT])
+}, [{showSymbol,dateT}])
 
  
 
@@ -141,12 +150,21 @@ useEffect(() => {
             "priceNow": amountNow,
             "investment": investment,
             "currentValue": currentValue,
-            "profitLoss": profitLoss
+            "profitLoss": profitLoss,
+            "profitLossPercentage": profitLossPercentage
         }
     
           addDoc(addStock, docData)
           .then (() => {
             alert("Document Created")
+            SetSelectedSymbol('');
+            setTransactionType('');
+            setUnit('');
+            setAmount('');
+            setAmountNow('');
+            setYear('');
+            setMonth('');
+            setDay('');
         })
         .catch ((error) => {
           alert(error.message)
@@ -163,41 +181,41 @@ useEffect(() => {
     <View style={styles.addStockContainer}>
         {/* <ScrollView> */}
           <View style={styles.header}>
-              <Text style={{ ...darkFONTS.h4, padding: SIZES.padding }}>My Portfolio</Text>
-
-              <TouchableOpacity
-                  style={styles.addButton}
-                  >
-                  <Image source={icons.add}
-                      style={{
-                          width: 25,
-                          height: 25,
-                          tintColor: COLORS.black,
-                          opacity: 0.5
-                      }} />
-              </TouchableOpacity>
+              <Text style={{ ...darkFONTS.h4, padding: SIZES.padding }}>Add Transaction</Text>
           </View>
 
           {/* <GestureRecognizer
             style={{flex: 1}}> */}
 
 
-      
-        <View style={styles.modalStyle}>
+            
+              
+        < Transitioning.View 
+          ref = {ref}
+          transition = {transitionMe}
+        >
+          <TouchableOpacity
+              onPress={()=>{
+                ref.current.animateNextTransition();
+                setShowAddStock(!showAddStock)
+              }}
+                  style={styles.addButton}
+                  >
           <View style={styles.modalHeader}>
             <Text style={{...darkFONTS.h5}}>Add New Stock</Text>
-            <TouchableOpacity onPress={() => {setModalVisible(!modalVisible); showSymbol()}}>
-                <Image source={icons.add}
-                style={{
-                    width: 30,
-                    height:30,
-                    tintColor: COLORS.black,
-                    opacity: 0.6,
-                    transform: [{rotate: '45deg'}]
-                }}/>
-            </TouchableOpacity>
-          </View>
-          <View>
+            
+                  <Image source={icons.add}
+                      style={{
+                          width: 30,
+                          height: 30,
+                          tintColor: COLORS.black,
+                          opacity: 0.7
+                      }} />
+                </View>
+              </TouchableOpacity>
+          
+          { showAddStock &&
+          <View style={styles.modalStyle}>
           { loaded? (<View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}><ActivityIndicator size={40} color= '#000000' /></View>)
         : (<View style={styles.dropDown}>
             {/* <SelectList setSelected={setSelected} data={data}/> */}
@@ -286,12 +304,13 @@ useEffect(() => {
               keyboardType='number-pad'
               style={styles.inputField} />
           
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: SIZES.padding2}}>
           <TextInput
               value={year}
               onChangeText={(year) => setYear(year)}
               placeholder= 'YYYY'
               placeholderTextColor= '#696969'
+              returnKeyType='send'
               keyboardType='number-pad'
               maxLength={4}
               style={styles.inputDateField} />
@@ -321,13 +340,22 @@ useEffect(() => {
         <Pressable 
         onPressIn={() => {dateT();profitLossShow()}}
         onPressOut = {() =>{ReadAll(); dateT()} }
-        onPress={()=>{Add();ReadAll()}}
-        style={{width: 60, height: 40, backgroundColor: 'blue', alignSelf: 'center', margin: 20}}><Text>Add</Text></Pressable>
+        onPress={()=>{Add();ReadAll(); setShowAddStock(false)}}
+        style={({ pressed }) => [
+          {
+            opacity: pressed
+              ? 0.5
+              : 0.9
+          },
+          styles.StockAdd
+        ]}><Text style={styles.StockAddText}>Add New Stock</Text></Pressable>
           </View>
-          </View>
+          </View>}
 
-        </View>
+        </ Transitioning.View>
+
       <View>
+        <Text>Nice</Text>
       {
         dataItem.map((doc) => {
           return (
@@ -335,22 +363,38 @@ useEffect(() => {
             {/* <Text>{doc.email}</Text>
             <Text>{doc.username}</Text> */}
             <TouchableOpacity style={styles.shareContainer}>
+            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
             <View style={{flex: 0.5}}>
                 <Image source={icons.stock} style={{width:40, height: 40}} />
             </View>
-            <View style={{flex: 0.9, justifyContent: 'center', padding: SIZES.base }}>
+            <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center',alignItems: 'center' }}>
                 <Text style={{...darkFONTS.h5}}>{doc.symbol}</Text>
-                <Text style={{...darkFONTS.h5}}>{doc.transactionType}</Text>
+                <Text style={{...darkFONTS.body4}}>{doc.transactionType}</Text>
             </View>
             <View style={styles.priceDiff}>
-                <Text style={{...darkFONTS.h6}}>{doc.unit}</Text>
-                <Text style={{...darkFONTS.h6}}>{doc.investment}</Text>
-                <Text style={{...darkFONTS.h6}}>{doc.profitLoss}</Text>
-                <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                  <Image source={icons.up} style={{width: 15, height: 15}}/>
-                  <Text style={{...darkFONTS.body4}}>{doc.price}</Text>
-                  <Image source={icons.down} style={{width: 15, height: 15}}/>
+
+                <View style={{flexDirection: 'column', justifyContent: 'center' , alignItems: 'center'}}>
+                  <View>
+                  <Text style={{...darkFONTS.h5}}>{doc.priceNow}</Text>
+                  </View>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Image source={icons.up} style={{width: 15, height: 15, margin: 5, transform: [{rotate: '-90deg'}]}}/>
+                  <Text style={{...darkFONTS.body4}}>{doc.profitLossPercentage}</Text>
+                  <Image source={icons.down} style={{width: 15, height: 15, margin: 5, transform: [{rotate: '-90deg'}]}}/>
+                  </View>
                 </View>
+            </View>
+            </View>
+            <View style={styles.InvestmentSection}>
+              <View style={styles.unitSection}>
+                <Text style={{...darkFONTS.body3}}><Text  style={{...darkFONTS.h6}}> Units : </Text>{doc.unit}</Text>
+                <Text style={{...darkFONTS.body3}}><Text  style={{...darkFONTS.h6}}> Buy/Sell Price : </Text>{doc.price}</Text>
+              </View>
+              <View style={[styles.unitSection , {flexDirection: 'column'}]}>
+                <Text style={{...darkFONTS.body3, padding: 5}}><Text  style={{...darkFONTS.h6}}> Investment : </Text>{doc.investment}</Text>
+                <Text style={{...darkFONTS.body3, padding: 5}}><Text  style={{...darkFONTS.h6}}> Current Value : </Text>{doc.currentValue}</Text>
+                <Text style={{...darkFONTS.body3, padding: 5}}><Text  style={{...darkFONTS.h6}}> Profit/Loss : </Text>{doc.profitLoss}</Text>
+              </View>
             </View>
         </TouchableOpacity>
             </View>
@@ -372,26 +416,26 @@ const styles = StyleSheet.create({
         alignItems: 'center'
 
     },
-    addButton: {
-        backgroundColor: COLORS.darkgray,
-        width: 50,
-        height:50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 25,
-    },
+    // addButton: {
+    //     backgroundColor: COLORS.lightGray,
+    //     opacity: 0.5,
+    //     width: 40,
+    //     height:40,
+    //     justifyContent: 'center',
+    //     alignItems: 'center',
+    //     borderRadius: 25,
+    // },
 
     modalStyle:{
       flex: 1,
       justifyContent: 'flex-start',
       alignSelf: 'center',
       width: SIZES.width-50,
-      height: SIZES.height-250,
+      height: (SIZES.height*400)/SIZES.height,
       backgroundColor: COLORS.darkgray,
-      margin: SIZES.padding,
-      marginTop: SIZES.padding,
       paddingHorizontal: SIZES.padding,
-      borderRadius: SIZES.padding,
+      borderBottomLeftRadius: SIZES.padding,
+      borderBottomRightRadius: SIZES.padding,
       shadowColor: "#000",
       shadowOffset: {
         width: 0,
@@ -406,7 +450,23 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        margin: SIZES.base
+        alignSelf: 'center',
+        flex: 1,
+      width: SIZES.width-50,
+      height: (SIZES.height*50)/SIZES.height,
+      backgroundColor: COLORS.darkgray,
+      marginTop: SIZES.padding,
+      paddingHorizontal: SIZES.padding,
+      borderRadius: SIZES.padding,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+
+      elevation: 5,
     },
     inputField: {
       ...darkFONTS.body4,
@@ -417,20 +477,23 @@ const styles = StyleSheet.create({
       borderColor: 'grey',
       borderRadius: SIZES.padding,
       margin: SIZES.padding,
+      alignSelf: 'center',
       paddingHorizontal: SIZES.padding,
       color: 'black',
 
       },
       inputDateField: {
         ...darkFONTS.body4,
-        width: SIZES.width-340,
+        alignSelf: 'center',
+        width: 99,
         height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: COLORS.darkgray,
         borderWidth: 1.5,
         borderColor: 'grey',
         borderRadius: SIZES.padding,
-        margin: 3,
-        paddingHorizontal: SIZES.padding,
+        paddingHorizontal: SIZES.base,
         color: 'black',
   
         },
@@ -490,14 +553,15 @@ const styles = StyleSheet.create({
       },
       shareContainer:{
         width: SIZES.width - 50,
-        height: (SIZES.height * 100) / SIZES.height,
+        height: (SIZES.height * 190) / SIZES.height,
         backgroundColor: COLORS.darkgray,
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        // alignItems: 'center',
         margin: SIZES.padding,
         marginTop:SIZES.base,
-        paddingHorizontal: SIZES.padding,
+        padding: SIZES.padding,
+        
         borderRadius: SIZES.padding,
         shadowColor: "#000",
         shadowOffset: {
@@ -526,5 +590,25 @@ const styles = StyleSheet.create({
             flex: 2,
             alignItems: 'flex-end',
             marginHorizontal: SIZES.base
-        }
+        },
+
+  unitSection: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: SIZES.base
+  },
+  StockAdd: {
+    width: SIZES.width-100, 
+    height: 40, 
+    borderRadius: SIZES.padding,
+    backgroundColor: '#1f1f1f',
+    justifyContent: 'center',
+    alignItems: 'center', 
+    alignSelf: 'center', 
+    margin: SIZES.padding
+  },
+  StockAddText: {
+    ...lightFONTS.body3
+  }
 })
