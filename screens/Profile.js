@@ -4,7 +4,7 @@ import { COLORS, lightFONTS, darkFONTS } from '../constants'
 
 const Profile = () => {
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor:COLORS.black,}}>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor:COLORS.white}}>
       <Text style={{ ...darkFONTS.h1}}>Profile</Text>
     </View>
   )

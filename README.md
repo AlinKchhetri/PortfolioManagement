@@ -1,5 +1,5 @@
 # Portfolio Management
 
-# npm install
+# yarn install / npm install
 
 # expo start

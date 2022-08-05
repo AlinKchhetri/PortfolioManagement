@@ -1,19 +1,14 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image, Modal, ActivityIndicator, KeyboardAvoidingView, Pressable, TextInput, TouchableWithoutFeedback } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, Image, ActivityIndicator, Pressable, TextInput, Keyboard } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react';
 import MyStocks from '../Portfolio/MyStocks';
-import Create from './add';
-import { ScrollView } from 'react-native-virtualized-view';
-import GestureRecognizer from 'react-native-swipe-gestures';
 import {db} from '../../components/Firebase/configexpo';
-import { collection, deleteDoc, doc, getDoc, setDoc, addDoc, getDocs } from 'firebase/firestore';
+import { collection,addDoc, getDocs } from 'firebase/firestore';
 import SelectDropdown from 'react-native-select-dropdown';
 import axios from 'axios'
-import {Transition, transition, Transitioning} from 'react-native-reanimated'
-import { Keyboard } from 'react-native'; 
+import {Transition, transition, Transitioning} from 'react-native-reanimated' 
 
 
 import { COLORS, lightFONTS, darkFONTS, images, icons, SIZES } from '../../constants'
-import { set } from 'react-native-reanimated';
 
 const transitionMe = (
   <Transition.Together>
@@ -26,14 +21,10 @@ const transitionMe = (
 Keyboard.dismiss()
 
 const CreateItem = () => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [agree, setagree] = useState(false);
 
-  const [gotDoc, setGotDoc] =useState(false);
   const [loaded, setLoaded] = useState(true);
   const [data,setData] = useState([]);
   const [selectedSymbol, SetSelectedSymbol] = useState('');
-  const [email, setEmail] = useState('');
   const [unit, setUnit] = useState('');
   const [amount, setAmount] = useState('');
   const [transactionType, setTransactionType] = useState('');
@@ -43,8 +34,6 @@ const CreateItem = () => {
   const [profitLoss, setProfitLoss] = useState('');
   const [profitLossPercentage, setProfitLossPercentage] = useState('');
   const [date, setDate] = useState('');
-  const [open, setOpen] = useState(false);
-  const [dateVisible, setDateVisible] = useState(true);
   const [year, setYear] = useState('');
   const [month, setMonth] = useState('');
   const [day, setDay] = useState('');
@@ -76,19 +65,6 @@ const CreateItem = () => {
 
 
 const showSymbol = () => {
-    // axios.get("http://nepstockapi.herokuapp.com/")
-    //         .then((response) => {
-    //           setFilteredDataSource(response.data);
-    //           setMasterDataSource(response.data);
-    //           setLoaded(false)
-    //           let newArray = response.data.map((item) => {
-    //             return {key: item.Symbol, value: item.Symbol}
-    //           }); 
-    //           setData(newArray);
-    //         })
-    //         .catch((error) => {
-    //             console.log(error)
-    //         });
     axios.get("http://nepstockapi.herokuapp.com/")
             .then((response) => {
                 setData(response.data);
@@ -104,7 +80,6 @@ const dateT = () =>{
 
   setInvestment(Math.floor(unit*amount));
   setCurrentValue(Math.floor(unit*amountNow));
-  // setProfitLoss((Math.floor(currentValue)-Math.floor(investment)));
  
 
 }
@@ -131,7 +106,7 @@ useEffect(() => {
         const myDoc = collection(db, "Portfolio")
         getDocs(myDoc)
           .then (() => {
-             setGotDoc(true);
+            return;
         })
         .catch ((error) => {
           alert(error.message)
@@ -157,7 +132,6 @@ useEffect(() => {
     
           addDoc(addStock, docData)
           .then (() => {
-            alert("Document Created")
             SetSelectedSymbol('');
             setTransactionType('');
             setUnit('');
@@ -198,7 +172,8 @@ useEffect(() => {
           <TouchableOpacity
               onPress={()=>{
                 ref.current.animateNextTransition();
-                setShowAddStock(!showAddStock)
+                setShowAddStock(!showAddStock);
+                ReadAll();
               }}
                   style={styles.addButton}
                   >

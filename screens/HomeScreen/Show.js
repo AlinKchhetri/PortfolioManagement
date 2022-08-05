@@ -1,11 +1,10 @@
-import { StyleSheet,RefreshControl, Text, View, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
 import React, { useState, useEffect } from 'react';
-import { ScrollView } from 'react-native-virtualized-view';
 import {db} from '../../components/Firebase/configexpo';
-import { collection, doc, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 
-import { COLORS, lightFONTS, darkFONTS, images, icons, SIZES } from '../../constants'
-import Aashboard from './dashboard'
+import { COLORS, icons, SIZES } from '../../constants'
+import DashboardCard from './dashboard'
 
 
 const show = () => {
@@ -79,7 +78,7 @@ const show = () => {
                       }} />
               </TouchableOpacity>
               </View>
-    <Aashboard currentBalance={currentBalance} totalUnits={totalUnits} totalInvestment = {totalInvestment} profitLoss={totalProfitLoss} />
+    <DashboardCard currentBalance={currentBalance} totalUnits={totalUnits} totalInvestment = {totalInvestment} profitLoss={totalProfitLoss} />
     </View>
   )
 }

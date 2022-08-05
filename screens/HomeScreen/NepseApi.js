@@ -1,7 +1,6 @@
-import { StyleSheet, Text, View, Image , TouchableOpacity, FlatList, ActivityIndicator, KeyboardAvoidingView, TextInput} from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ActivityIndicator, KeyboardAvoidingView, TextInput, Keyboard } from 'react-native'
 import { ScrollView } from 'react-native-virtualized-view';
-import React, {useState, useEffect} from 'react'
-import { Keyboard } from 'react-native'; 
+import React, {useState, useEffect} from 'react' 
 
 import axios from 'axios'
 

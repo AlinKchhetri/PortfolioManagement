@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity } from
 import React from 'react'
 import { COLORS, lightFONTS, icons,  darkFONTS, SIZES } from '../../constants'
 
-const Aashboard = (props) => {
+const DashboardCard = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
@@ -44,7 +44,7 @@ const Aashboard = (props) => {
   )
 }
 
-export default Aashboard
+export default DashboardCard
 
 const styles = StyleSheet.create({
     container: {

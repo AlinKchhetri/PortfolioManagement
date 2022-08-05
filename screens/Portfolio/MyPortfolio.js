@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView } from 'react-native-virtualized-view';
 import {db} from '../../components/Firebase/configexpo';
 import { collection, doc, getDocs, query, where } from 'firebase/firestore';
-import Aashboard from '../HomeScreen/dashboard';
+import DashboardCard from '../HomeScreen/dashboard';
 import MyStocks from './MyStocks';
 
 import { COLORS, lightFONTS, darkFONTS, images, icons, SIZES } from '../../constants'
@@ -79,7 +79,7 @@ const MyPortfolio = () => {
     <View>
         <ScrollView
         showsVerticalScrollIndicator={false}>
-          <Aashboard currentBalance={currentBalance} totalUnits={totalUnits} totalInvestment = {totalInvestment} profitLoss={totalProfitLoss}/>
+          <DashboardCard currentBalance={currentBalance} totalUnits={totalUnits} totalInvestment = {totalInvestment} profitLoss={totalProfitLoss}/>
         <View style={styles.header}>
               <Text style={{ ...darkFONTS.h4, padding: SIZES.padding }}>My Portfolio</Text>
 

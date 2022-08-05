@@ -3,16 +3,13 @@ import React from 'react'
 import { ScrollView } from 'react-native-virtualized-view';
 import MyPortfolio from './MyPortfolio'
 
-import { COLORS, lightFONTS, darkFONTS, images, icons, SIZES } from '../../constants'
-import Dashboard from '../HomeScreen/Dashboard';
+import { COLORS, SIZES } from '../../constants'
 
 const Portfolio = () => {
   return (
     <View style={styles.container}>
       <ScrollView
       showsVerticalScrollIndicator ={false}>
-        {/* <Text>New</Text>
-      <Dashboard /> */}
       <MyPortfolio />
       </ScrollView>
     </View>
