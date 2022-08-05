@@ -7,10 +7,7 @@ const HomeHeader = ({navigation}) => {
     <View style={styles.container}>
       <View style={styles.WelcomeSection}>
         <TouchableOpacity 
-        style={{flex: 0.7}}
-        onPress={() => {
-          navigation.navigate('Profile')
-        }}>
+        style={{flex: 0.7}}>
           <Image source={images.avatar} 
           style={{
             width: 55,
@@ -18,15 +15,12 @@ const HomeHeader = ({navigation}) => {
           }}/>
         </TouchableOpacity>
         <View style={styles.WelcomeText}>
-          <Text style={{...darkFONTS.h3}}>Welcome!</Text>
+          <Text style={{...darkFONTS.h4}}>Welcome!</Text>
           <Text style={{...darkFONTS.body3}}>Alin Khatri</Text>
         </View>
         <View style={styles.notificationButton}>
         <TouchableOpacity 
-        style={styles.button}
-        onPress={() => {
-          navigation.navigate('Profile')
-        }}>
+        style={styles.button}>
           <Image source={icons.notification} 
           style={{
             width: 30,
@@ -66,7 +60,7 @@ const styles = StyleSheet.create({
     },
 
     notificationButton: {
-      flex: 1.8,
+      flex: 1.5,
       justifyContent: 'flex-end',
       alignItems: 'flex-end',
       

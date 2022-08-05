@@ -4,12 +4,11 @@ import { ScrollView } from 'react-native-virtualized-view';
 import {db} from '../../components/Firebase/configexpo';
 import { collection, doc, getDocs, query, where } from 'firebase/firestore';
 import Aashboard from '../HomeScreen/dashboard';
-import MyStocks from './MyStocks';
 
 import { COLORS, lightFONTS, darkFONTS, images, icons, SIZES } from '../../constants'
 
 
-const MyPortfolio = () => {
+const MyStocks = (props) => {
 
     const [dataItem, setDataItem] = useState([]);
     const [currentBalance, setCurrentBalance] = useState('');
@@ -29,28 +28,13 @@ const MyPortfolio = () => {
         })
       }
       
-    //   useEffect(() => {
-    //     if (dataItem) {
-    //     ReadAll();
-    //     } else {
-    //       forDashboard();
-    //     }
-    //   }, [])
+      useEffect(() => {
+        ReadAll();
+      }, [])
     
-    // useEffect(() => {
-        
-    //     forDashboard();
-    //   }, [dataItem])
     useEffect(() => {
-      ReadAll();
-      return () => {
-        setCurrentBalance('')
-      }
-    }, [currentBalance])
-  useEffect(() => {
-    forDashboard();
-    
-  }, [ReadAll, currentBalance])
+        forDashboard();
+      }, [dataItem])
 
 
 
@@ -77,51 +61,46 @@ const MyPortfolio = () => {
     
   return (
     <View>
-        <ScrollView
-        showsVerticalScrollIndicator={false}>
-          <Aashboard currentBalance={currentBalance} totalUnits={totalUnits} totalInvestment = {totalInvestment} profitLoss={totalProfitLoss}/>
-        <View style={styles.header}>
-              <Text style={{ ...darkFONTS.h4, padding: SIZES.padding }}>My Portfolio</Text>
-
-              <TouchableOpacity
-                onPress={() => {ReadAll(); forDashboard()}}
-                  style={styles.addButton}
-                  >
-                  <Image source={icons.refresh}
-                      style={{
-                          width: 25,
-                          height: 25,
-                          tintColor: COLORS.black,
-                          opacity: 0.5
-                      }} />
-              </TouchableOpacity>
-          </View>
-
-      {
-        dataItem.map((doc) => {
-          return (
-            <View key={doc.id}>
-              <MyStocks 
-                symbol={doc.symbol} 
-                transactionType = {doc.transactionType} 
-                priceNow = {doc.priceNow} 
-                profitLossPercentage={doc.profitLossPercentage}
-                unit = {doc.unit}
-                price= {doc.price}
-                investment = {doc.investment}
-                currentValue = {doc.currentValue}
-                profitLoss = {doc.profitLoss}
-              />
+            <TouchableOpacity style={styles.shareContainer}>
+            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+            <View style={{flex: 0.5}}>
+                <Image source={icons.stock} style={{width:40, height: 40}} />
             </View>
-          )
-        })
-      }
-      </ScrollView>
+            <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center',alignItems: 'center' }}>
+                <Text style={{...darkFONTS.h5}}>{props.symbol}</Text>
+                <Text style={{...darkFONTS.body4}}>{props.transactionType}</Text>
+            </View>
+            <View style={styles.priceDiff}>
+
+                <View style={{flexDirection: 'column', justifyContent: 'center' , alignItems: 'center'}}>
+                  <View>
+                  <Text style={{...darkFONTS.h5}}>{props.priceNow}</Text>
+                  </View>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Image source={icons.up} style={{width: 15, height: 15, margin: 5, transform: [{rotate: '-90deg'}]}}/>
+                  <Text style={{...darkFONTS.body4}}>{props.profitLossPercentage}</Text>
+                  <Image source={icons.down} style={{width: 15, height: 15, margin: 5, transform: [{rotate: '-90deg'}]}}/>
+                  </View>
+                </View>
+            </View>
+            </View>
+            <View style={styles.InvestmentSection}>
+              <View style={styles.unitSection}>
+                <Text style={{...darkFONTS.body3}}><Text  style={{...darkFONTS.h6}}> Units : </Text>{props.unit}</Text>
+                <Text style={{...darkFONTS.body3}}><Text  style={{...darkFONTS.h6}}> Buy/Sell Price : </Text>{props.price}</Text>
+              </View>
+              <View style={[styles.unitSection , {flexDirection: 'column'}]}>
+                <Text style={{...darkFONTS.body3, padding: 5}}><Text  style={{...darkFONTS.h6}}> Investment : </Text>{props.investment}</Text>
+                <Text style={{...darkFONTS.body3, padding: 5}}><Text  style={{...darkFONTS.h6}}> Current Value : </Text>{props.currentValue}</Text>
+                <Text style={{...darkFONTS.body3, padding: 5}}><Text  style={{...darkFONTS.h6}}> Profit/Loss : </Text>{props.profitLoss}</Text>
+              </View>
+            </View>
+        </TouchableOpacity>
       </View>
   )
 }
 
-export default MyPortfolio
+export default MyStocks
 
 const styles = StyleSheet.create({
   shareContainer:{

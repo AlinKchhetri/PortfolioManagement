@@ -14,6 +14,8 @@ const show = () => {
     const [totalUnits, setTotalUnits] = useState('');
     const [totalInvestment, setTotalInvestment] = useState('');
     const [totalProfitLoss, setTotalProfitLoss] = useState('');
+    const [shown, setShown ] = useState(true);
+    const [isRefreshed, setIsRefreshed] = useState(false);
 
     const ReadAll = () => {
       const buyOnly = query(collection(db, "Portfolio"), where('transactionType', '==' ,'BUY'))
@@ -29,8 +31,11 @@ const show = () => {
       
     useEffect(() => {
         ReadAll();
-        forDashboard();
-      }, [ReadAll])
+      }, [currentBalance])
+    useEffect(() => {
+      forDashboard();
+    }, [ReadAll, dataItem])
+
 
 
 
@@ -39,15 +44,56 @@ const show = () => {
         setTotalUnits((dataItem.reduce((a,v) =>  a = a + Math.floor(v.unit), 0 )).toLocaleString());
         setTotalInvestment((dataItem.reduce((a,v) =>  a = a + v.investment, 0 )).toLocaleString());
         setTotalProfitLoss((dataItem.reduce((a,v) =>  a = a + v.profitLoss, 0 )).toLocaleString());
+        setIsRefreshed(true)
+        if(shown){
+          setCurrentBalance('XXXX');
+          setTotalUnits('XXXX')
+          setTotalInvestment('XXXX')
+          setTotalProfitLoss('XXXX')
+        }
 
       }
   return (
     <View>
-      <Aashboard currentBalance={currentBalance} totalUnits={totalUnits} totalInvestment = {totalInvestment} profitLoss={totalProfitLoss}/>
+      <View style={{flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', padding: SIZES.padding}}>
+      <TouchableOpacity
+                onPress={() => {setShown(!shown)}}
+                  style={styles.addButton}
+                  >
+                  <Image source={shown? icons.hideEye : icons.showEye}
+                      style={{
+                          width: 20,
+                          height: 20,
+                          tintColor: COLORS.white,
+                      }} />
+              </TouchableOpacity>
+      <TouchableOpacity
+                onPress={() => {forDashboard(); ReadAll()}}
+                  style={styles.addButton}
+                  >
+                  <Image source={icons.refresh}
+                      style={{
+                          width: 20,
+                          height: 20,
+                          tintColor: COLORS.white,
+                      }} />
+              </TouchableOpacity>
+              </View>
+    <Aashboard currentBalance={currentBalance} totalUnits={totalUnits} totalInvestment = {totalInvestment} profitLoss={totalProfitLoss} />
     </View>
   )
 }
 
 export default show
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  addButton: {
+    backgroundColor: COLORS.darkgray,
+    width: 40,
+    height:40,
+    alignSelf: 'flex-end',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 25,
+},
+})

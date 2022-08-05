@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, ImageBackground } from 'react-native'
+import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { COLORS, lightFONTS, icons,  darkFONTS, SIZES } from '../../constants'
 
@@ -6,12 +6,13 @@ const Aashboard = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-      <Text style={{...darkFONTS.h3, padding: SIZES.padding}}>Dashboard</Text>
         <View
         style={styles.dashboard}>
             <View style={styles.balanceSection}>
+                <View>
                     <Text style={{...lightFONTS.h4}}>Current Balance</Text>
                     <Text style={{...lightFONTS.h2}}>{props.currentBalance}</Text>
+                </View>
             </View>
             <View style={styles.unitSection}>
                 <View style={styles. unitAmount}>
@@ -75,8 +76,8 @@ const styles = StyleSheet.create({
 
     },
     balanceSection:{
-        flexDirection: 'column',
-        justifyContent: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'flex-start',
         padding: SIZES.padding
     },

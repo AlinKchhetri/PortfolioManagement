@@ -19,6 +19,23 @@ const firebaseConfig = {
     appId: "1:271494643336:web:21437f33ecc6954948693d"
   
   };
+
+// const firebaseConfig = {
+
+//   apiKey: "AIzaSyB25Jh4hzt4TghusKjgxfOUfNV2_LToWXs",
+
+//   authDomain: "portfolio-management-9110b.firebaseapp.com",
+
+//   projectId: "portfolio-management-9110b",
+
+//   storageBucket: "portfolio-management-9110b.appspot.com",
+
+//   messagingSenderId: "504411582605",
+
+//   appId: "1:504411582605:web:dbe08dc602691b9e9bb2c4"
+
+// };
+
   
 
 export const app = initializeApp(firebaseConfig);

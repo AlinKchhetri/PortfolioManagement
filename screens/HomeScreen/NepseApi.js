@@ -1,9 +1,13 @@
 import { StyleSheet, Text, View, Image , TouchableOpacity, FlatList, ActivityIndicator, KeyboardAvoidingView, TextInput} from 'react-native'
 import { ScrollView } from 'react-native-virtualized-view';
 import React, {useState, useEffect} from 'react'
+import { Keyboard } from 'react-native'; 
+
 import axios from 'axios'
 
 import { COLORS, lightFONTS, icons,  darkFONTS, SIZES } from '../../constants'
+
+Keyboard.dismiss()
 
 const NepseApi = () => {
 
@@ -21,6 +25,10 @@ const NepseApi = () => {
             }).catch((error) => {
                 console.log(error)
             })
+          
+          return () => {
+            setMasterDataSource([]);
+          }
   }, []);
 
 
@@ -56,7 +64,7 @@ const NepseApi = () => {
       placeholder="Search Symbol"
       placeholderTextColor= 'grey'
       onChange={(search) => setSearch(search)}
-      onChangeText={(text) => searchFilterFunction(text)}
+      onChangeText={(text) => {searchFilterFunction(text); setSearch(text)}}
 
       style={styles.searchBar} 
     />
