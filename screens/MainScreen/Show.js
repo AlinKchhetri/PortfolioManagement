@@ -7,7 +7,7 @@ import { COLORS, icons, SIZES } from '../../constants'
 import DashboardCard from './dashboard'
 
 
-const show = () => {
+const Show = () => {
     const [dataItem, setDataItem] = useState([]);
     const [currentBalance, setCurrentBalance] = useState('');
     const [totalUnits, setTotalUnits] = useState('');
@@ -83,7 +83,7 @@ const show = () => {
   )
 }
 
-export default show
+export default Show
 
 const styles = StyleSheet.create({
   addButton: {

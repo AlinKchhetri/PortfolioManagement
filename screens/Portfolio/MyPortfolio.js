@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView } from 'react-native-virtualized-view';
 import {db} from '../../components/Firebase/configexpo';
 import { collection, doc, getDocs, query, where } from 'firebase/firestore';
-import DashboardCard from '../HomeScreen/dashboard';
+import DashboardCard from '../MainScreen/dashboard';
 import MyStocks from './MyStocks';
 
 import { COLORS, lightFONTS, darkFONTS, images, icons, SIZES } from '../../constants'

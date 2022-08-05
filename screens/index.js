@@ -1,4 +1,4 @@
-import Home from "./HomeScreen/Home"
+import Home from "./MainScreen/Home"
 import Profile from "./Profile"
 import AddStock from "./AddStock/AddStock";
 import Portfolio from "./Portfolio/Portfolio";

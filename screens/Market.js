@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { ScrollView } from 'react-native-virtualized-view';
 import { COLORS, lightFONTS, darkFONTS, SIZES } from '../constants'
-import NepseApi from './HomeScreen/NepseApi'
+import NepseApi from './MainScreen/NepseApi'
 
 const Market = () => {
   return (

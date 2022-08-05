@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, SafeAreaView } from 'react-native'
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native-virtualized-view';
-import HomeHeader from './HomeHeader';
+import Header from './Header';
 import NepseApi from './NepseApi';
 import Show from './Show';
 import { COLORS, lightFONTS, darkFONTS, SIZES } from '../../constants'
@@ -13,7 +13,7 @@ const Home = () => {
       <ScrollView
       showsVerticalScrollIndicator ={false}>
         <View>
-          <HomeHeader />
+          <Header />
           <Show />
           <View style={styles.todayMarket}>
             <Text style={{...darkFONTS.h4, padding: SIZES.padding}}>Today's Market</Text>

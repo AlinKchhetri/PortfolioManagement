@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { COLORS,  darkFONTS, icons, images, SIZES } from '../../constants'
 
-const HomeHeader = () => {
+const Header = () => {
   return (
     <View style={styles.container}>
       <View style={styles.WelcomeSection}>
@@ -37,7 +37,7 @@ const HomeHeader = () => {
   )
 }
 
-export default HomeHeader
+export default Header
 
 const styles = StyleSheet.create({
     container: {
