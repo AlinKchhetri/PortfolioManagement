@@ -1,11 +1,5 @@
-
-const avatar =  require('../assets/images/avatar.png');
-
-
-
+const avatar = require('../assets/images/avatar.png');
 
 export default {
-
-    avatar,
-
-}
+	avatar
+};

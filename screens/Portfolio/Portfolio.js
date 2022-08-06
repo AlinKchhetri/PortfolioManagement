@@ -1,48 +1,32 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet } from 'react-native';
+import React from 'react';
 import { ScrollView } from 'react-native-virtualized-view';
-import MyPortfolio from './MyPortfolio'
+import MyPortfolio from './MyPortfolio';
 
-import { COLORS, SIZES } from '../../constants'
+import { COLORS, darkFONTS, SIZES } from '../../constants';
 
 const Portfolio = () => {
-  return (
-    <View style={styles.container}>
-      <ScrollView
-      showsVerticalScrollIndicator ={false}>
-      <MyPortfolio />
-      </ScrollView>
-    </View>
-  )
-}
-
+	return (
+		<View style={styles.container}>
+			<ScrollView showsVerticalScrollIndicator={false}>
+				<Text style={{ ...darkFONTS.h4, paddingHorizontal: SIZES.padding }}>My Portfolio</Text>
+				<MyPortfolio />
+			</ScrollView>
+		</View>
+	);
+};
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 50,
-    paddingHorizontal: 16,
-    paddingBottom: 34,
-    flex: 1, 
-    backgroundColor: COLORS.lightGray,
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    alignSelf: 'center'
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: SIZES.padding,
-    alignItems: 'center'
+	container: {
+		paddingTop: 50,
+		paddingHorizontal: 16,
+		marginBottom: 88,
+		flex: 1,
+		backgroundColor: COLORS.lightGray,
+		justifyContent: 'center',
+		alignItems: 'center',
+		alignSelf: 'center'
+	}
+});
 
-},
-addButton: {
-    backgroundColor: COLORS.darkgray,
-    width: 50,
-    height:50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 25,
-},
-})
-
-export default Portfolio
+export default Portfolio;

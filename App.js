@@ -38,14 +38,15 @@ const App = () => {
     return null;
     }
     return (
-        <NavigationContainer theme={theme}>
+        <NavigationContainer
+        theme={theme}>
             <Stack.Navigator
                 screenOptions={{
                     headerShown: false
                 }}
-                initialRouteName={'Home'}
+                initialRouteName={'Tab'}
             >
-                <Stack.Screen name="Home" component={Tabs} />
+                <Stack.Screen name="Tab" component={Tabs} />
 
             </Stack.Navigator>
         </NavigationContainer>
