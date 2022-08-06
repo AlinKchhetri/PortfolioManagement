@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, ScrollView, SafeAreaView, RefreshControl, Text, View, TouchableOpacity, Image } from 'react-native'
 import React, { useState, useEffect } from 'react';
 import {db} from '../../components/Firebase/configexpo';
 import { collection, getDocs, query, where } from 'firebase/firestore';
@@ -14,7 +14,7 @@ const Show = () => {
     const [totalInvestment, setTotalInvestment] = useState('');
     const [totalProfitLoss, setTotalProfitLoss] = useState('');
     const [shown, setShown ] = useState(true);
-    const [isRefreshed, setIsRefreshed] = useState(false);
+    const [refreshing, setRefreshing] = useState(true);
 
     const ReadAll = () => {
       const buyOnly = query(collection(db, "Portfolio"), where('transactionType', '==' ,'BUY'))
@@ -43,7 +43,7 @@ const Show = () => {
         setTotalUnits((dataItem.reduce((a,v) =>  a = a + Math.floor(v.unit), 0 )).toLocaleString());
         setTotalInvestment((dataItem.reduce((a,v) =>  a = a + v.investment, 0 )).toLocaleString());
         setTotalProfitLoss((dataItem.reduce((a,v) =>  a = a + v.profitLoss, 0 )).toLocaleString());
-        setIsRefreshed(true)
+        
         if(shown){
           setCurrentBalance('XXXX');
           setTotalUnits('XXXX')
@@ -52,8 +52,23 @@ const Show = () => {
         }
 
       }
+
+      const refresh = () => {
+        setRefreshing(true);
+        forDashboard()
+        ReadAll();
+        setRefreshing(false);
+      }
   return (
-    <View>
+    <SafeAreaView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh = {() => {refresh()}}
+          />
+        }
+      >
       <View style={{flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', padding: SIZES.padding}}>
       <TouchableOpacity
                 onPress={() => {setShown(!shown)}}
@@ -79,7 +94,8 @@ const Show = () => {
               </TouchableOpacity>
               </View>
     <DashboardCard currentBalance={currentBalance} totalUnits={totalUnits} totalInvestment = {totalInvestment} profitLoss={totalProfitLoss} />
-    </View>
+    </ScrollView>
+    </SafeAreaView>
   )
 }
 

@@ -13,6 +13,7 @@ const refresh = require('../assets/icons/icon/refresh.png');
 const card = require('../assets/icons/icon/card.png');
 const showEye = require('../assets/icons/icon/showEye.png');
 const hideEye = require('../assets/icons/icon/hideEye.png');
+const edit = require('../assets/icons/icon/edit.png')
 
 export default {
     home,
@@ -29,5 +30,6 @@ export default {
     refresh,
     card,
     showEye,
-    hideEye
+    hideEye,
+    edit
 }
