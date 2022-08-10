@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
+import { Text, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 import React from 'react';
 import { ScrollView } from 'react-native-virtualized-view';
 import MyPortfolio from './MyPortfolio';

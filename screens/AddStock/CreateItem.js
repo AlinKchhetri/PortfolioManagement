@@ -567,7 +567,4 @@ const styles = StyleSheet.create({
 	StockAddText: {
 		...lightFONTS.body3
 	},
-	myStock: {
-		marginHorizontal: SIZES.padding2
-	}
 });

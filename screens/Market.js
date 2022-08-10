@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, StatusBar } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, StatusBar } from 'react-native';
 import React from 'react';
 import { ScrollView } from 'react-native-virtualized-view';
 import { COLORS, darkFONTS, SIZES } from '../constants';
@@ -20,7 +20,7 @@ export default Market;
 
 const styles = StyleSheet.create({
 	marketContainer: {
-		paddingTop: 40,
+		// paddingTop: 40,
 		paddingHorizontal: 16,
 		paddingBottom: 34,
 		flex: 1,

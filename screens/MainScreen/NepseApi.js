@@ -7,7 +7,6 @@ import {
 	FlatList,
 	ActivityIndicator,
 	TextInput,
-	Pressable,
 	Keyboard
 } from 'react-native';
 import { ScrollView } from 'react-native-virtualized-view';

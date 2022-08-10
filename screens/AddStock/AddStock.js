@@ -1,4 +1,4 @@
-import { View, StyleSheet, SafeAreaView, StatusBar} from 'react-native';
+import { StyleSheet, SafeAreaView, StatusBar} from 'react-native';
 import React, {  } from 'react';
 import { ScrollView } from 'react-native-virtualized-view';
 import CreateItem from './CreateItem';
@@ -19,7 +19,7 @@ const AddStock = () => {
 const styles = StyleSheet.create({
 	container: {
 		paddingHorizontal: 16,
-		paddingTop: 40,
+		// paddingTop: 40,
 		marginBottom: 88,
 		flex: 1,
 		backgroundColor: COLORS.lightGray
