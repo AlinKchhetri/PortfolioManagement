@@ -3,7 +3,7 @@ import { getFirestore } from 'firebase/firestore';
 
 // TODO: Replace the following with your app's Firebase project configuration
 const firebaseConfig = {
-	apiKey: 'AIzaSyCCJ5ZfyZkVOUM4pDJKdCYy6DLcfN1atXc',
+	apiKey: process.env.API_KEY,
 
 	authDomain: 'portfolio-management-app-104d9.firebaseapp.com',
 

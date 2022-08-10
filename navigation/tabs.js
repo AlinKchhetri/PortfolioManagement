@@ -33,6 +33,7 @@ const Tabs = () => {
                     shadowRadius: 4
                 }
             }}>
+                {/* Adding Screens to tab navigator */}
             <Tab.Screen
                 name="home"
                 component={Home}

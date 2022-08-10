@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 import React from 'react';
 import { ScrollView } from 'react-native-virtualized-view';
 import Header from './Header';
@@ -9,6 +9,7 @@ import { COLORS, darkFONTS, SIZES } from '../../constants';
 const Home = () => {
 	return (
 		<SafeAreaView style={styles.container}>
+			<StatusBar hidden={false} barStyle="dark-content" backgroundColor= '#F8F9FA'/>
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<View>
 					<Header />

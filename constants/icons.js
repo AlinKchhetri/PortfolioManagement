@@ -19,6 +19,7 @@ const secure = require('../assets/icons/icon/secure.png');
 const support = require('../assets/icons/icon/support.png');
 const love = require('../assets/icons/icon/love.png');
 const logout = require('../assets/icons/icon/logout.png');
+const search = require('../assets/icons/icon/search.png');
 
 export default {
 	home,
@@ -41,5 +42,6 @@ export default {
 	secure,
 	love,
 	support,
-	logout
+	logout,
+	search
 };

@@ -48,7 +48,7 @@ const Profile = () => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<StatusBar hidden={false} barStyle="dark-content" />
+			<StatusBar hidden={false} barStyle="dark-content" backgroundColor="#F8F9FA" />
 			<ScrollView
 				// bounces = {false}
 				contentContainerStyle={styles.scrollView}

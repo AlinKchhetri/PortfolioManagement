@@ -19,6 +19,7 @@ import { Transition, Transitioning } from 'react-native-reanimated';
 
 import { COLORS, lightFONTS, darkFONTS, icons, SIZES } from '../../constants';
 
+// Initialize transition for adding new stock
 const transitionMe = (
 	<Transition.Together>
 		<Transition.In type="fade" durationMs={200} />
@@ -50,6 +51,7 @@ const CreateItem = () => {
 	const [ dataItem, setDataItem ] = useState([]);
 	const ref = useRef();
 
+	// Fetching all stored transactions
 	const ReadAll = () => {
 		getDocs(collection(db, 'Portfolio')).then((docSnap) => {
 			let userPortfolio = [];
@@ -65,6 +67,16 @@ const CreateItem = () => {
 		Create();
 	}, []);
 
+	useEffect(
+		() => {
+			showSymbol();
+			calculate();
+			calculateProfitLoss();
+		},
+		[ { showSymbol, calculate } ]
+	);
+
+	// fetching stock symbols for dropdown
 	const showSymbol = () => {
 		axios
 			.get('http://nepstockapi.herokuapp.com/')
@@ -77,6 +89,7 @@ const CreateItem = () => {
 			});
 	};
 
+	// Calculation
 	const calculate = () => {
 		setDate(year + '/' + month + '/' + day);
 		setInvestment(Math.floor(unit * amount));
@@ -88,15 +101,7 @@ const CreateItem = () => {
 		setProfitLossPercentage(Math.floor(profitLoss / investment * 100) + '%');
 	};
 
-	useEffect(
-		() => {
-			showSymbol();
-			calculate();
-			calculateProfitLoss();
-		},
-		[ { showSymbol, calculate } ]
-	);
-
+	// Creating new collection if not already created
 	const Create = () => {
 		const myDoc = collection(db, 'Portfolio');
 		getDocs(myDoc)
@@ -108,6 +113,7 @@ const CreateItem = () => {
 			});
 	};
 
+	// Adding new transaction
 	const Add = () => {
 		const addStock = collection(db, 'Portfolio');
 
@@ -144,14 +150,9 @@ const CreateItem = () => {
 
 	return (
 		<View style={styles.addStockContainer}>
-			{/* <ScrollView> */}
 			<View style={styles.header}>
 				<Text style={{ ...darkFONTS.h4, padding: SIZES.padding }}>Add Transaction</Text>
 			</View>
-
-			{/* <GestureRecognizer
-            style={{flex: 1}}> */}
-
 			<Transitioning.View ref={ref} transition={transitionMe}>
 				<TouchableOpacity
 					onPress={() => {
@@ -176,6 +177,7 @@ const CreateItem = () => {
 					</View>
 				</TouchableOpacity>
 
+				{/* if add new transaction is pressed */}
 				{showAddStock && (
 					<View style={styles.modalStyle}>
 						{loaded ? (
@@ -347,7 +349,8 @@ const CreateItem = () => {
 				)}
 			</Transitioning.View>
 
-			<View>
+			{/* Mapping the fetched records from the firebase   */}
+			<View style={styles.myStock}>
 				{dataItem.map((doc) => {
 					return (
 						<View key={doc.id}>
@@ -366,7 +369,6 @@ const CreateItem = () => {
 					);
 				})}
 			</View>
-			{/* <Create data={data} buysell= {buysell} unit = {unit} amount = {amount} amountNow = {amountNow} year = {year} month ={month} day = {day} /> */}
 		</View>
 	);
 };
@@ -564,5 +566,8 @@ const styles = StyleSheet.create({
 	},
 	StockAddText: {
 		...lightFONTS.body3
+	},
+	myStock: {
+		marginHorizontal: SIZES.padding2
 	}
 });

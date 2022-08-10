@@ -1,4 +1,4 @@
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, SafeAreaView, StatusBar} from 'react-native';
 import React, {  } from 'react';
 import { ScrollView } from 'react-native-virtualized-view';
 import CreateItem from './CreateItem';
@@ -7,11 +7,12 @@ import { COLORS } from '../../constants';
 
 const AddStock = () => {
 	return (
-		<View style={styles.container}>
+		<SafeAreaView style={styles.container}>
+			<StatusBar hidden={false} barStyle="dark-content" backgroundColor= '#F8F9FA'/>
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<CreateItem />
 			</ScrollView>
-		</View>
+		</SafeAreaView>
 	);
 };
 

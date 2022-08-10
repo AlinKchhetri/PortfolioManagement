@@ -7,6 +7,7 @@ import {
 	FlatList,
 	ActivityIndicator,
 	TextInput,
+	Pressable,
 	Keyboard
 } from 'react-native';
 import { ScrollView } from 'react-native-virtualized-view';
@@ -66,7 +67,7 @@ const NepseApi = () => {
 				) : (
 					<View>
 						<View>
-							<View>
+							<View style={styles.searchBar}>
 								<TextInput
 									value={search}
 									placeholder="Search Symbol"
@@ -76,7 +77,7 @@ const NepseApi = () => {
 										searchFilterFunction(text);
 										setSearch(text);
 									}}
-									style={styles.searchBar}
+									style={styles.inputBar}
 								/>
 							</View>
 							<FlatList
@@ -149,14 +150,20 @@ const styles = StyleSheet.create({
 	},
 
 	searchBar: {
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+		alignItems: 'center',
+		margin: SIZES.base
+	},
+
+	inputBar: {
 		...darkFONTS.h6,
-		width: SIZES.width - 50,
+		width: SIZES.width - 60,
 		height: 50,
 		backgroundColor: COLORS.darkGray,
 		borderColor: COLORS.darkgray,
 		borderWidth: 2,
 		alignItems: 'center',
-		margin: SIZES.base,
 		paddingHorizontal: SIZES.padding,
 		borderRadius: SIZES.padding
 	},
